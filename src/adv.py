@@ -1,6 +1,9 @@
-from room import Room
+
 
 # file i/o functions for historical results
+
+from room import Room
+from player import Player
 
 
 def load_results():
@@ -61,8 +64,12 @@ room['treasure'].s_to = room['narrow']
 
 # Make a new player object that is currently in the 'outside' room.
 
+me = Player("Joscelyn", room['outside'])
+
 # Write a loop that:
 #
+
+print(me.name)
 # * Prints the current room name
 # * Prints the current description (the textwrap module might be useful here).
 # * Waits for user input and decides what to do.
