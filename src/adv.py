@@ -4,6 +4,7 @@
 
 from room import Room
 from player import Player
+import textwrap
 
 
 def load_results():
@@ -21,7 +22,7 @@ def save_results(w, t, l):
 
 # welcome message
 
-print("Welcome to my dungeon!")
+print("Welcome to my dungeon, {player.name}!")
 print("Please choose to continue...")
 
 
@@ -62,14 +63,54 @@ room['treasure'].s_to = room['narrow']
 # Main
 #
 
+# user = int(
+#     input("[1] North   [2] East    [3] South    [4] West       [9] Quit\n"))
+
+
 # Make a new player object that is currently in the 'outside' room.
 
-me = Player("Joscelyn", room['outside'])
+me = Player("Joscelyn", "outside")
 
 # Write a loop that:
 #
 
-print(me.name)
+me.current_room_info = room[me.current_room]
+
+
+def describe():
+    print(me.name)
+    print(me.current_room)
+    print(textwrap.dedent(me.current_room_info.description).strip())
+
+
+describe()
+
+
+def explore():
+    while not user == 9:
+        # user chooses North
+        if user == 1:
+            me.current_room = room[me.current_room].n_to
+            describe()
+        # user chooses East
+        elif user == 2:
+            me.current_room = room[me.current_room].e_to
+            describe()
+        # user chooses South
+        elif user == 3:
+            me.current_room = room[me.current_room].s_to
+            describe()
+        # user chooses South
+        elif user == 3:
+            me.current_room = room[me.current_room].s_to
+            describe()
+        else:
+            print("Invalid selection. Please try again.")
+
+
+# explore()
+
+
 # * Prints the current room name
 # * Prints the current description (the textwrap module might be useful here).
 # * Waits for user input and decides what to do.
