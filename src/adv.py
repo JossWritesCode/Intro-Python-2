@@ -63,52 +63,60 @@ room['treasure'].s_to = room['narrow']
 # Main
 #
 
-# user = int(
-#     input("[1] North   [2] East    [3] South    [4] West       [9] Quit\n"))
-
-
 # Make a new player object that is currently in the 'outside' room.
 
-me = Player("Joscelyn", "outside")
+me = Player("Joscelyn", room["outside"])
 
 # Write a loop that:
 #
 
-me.current_room_info = room[me.current_room]
-
 
 def describe():
-    print(me.name)
-    print(me.current_room)
-    print(textwrap.dedent(me.current_room_info.description).strip())
-
-
-describe()
+    print(textwrap.dedent(me.current_room.description).strip())
 
 
 def explore():
+    user = 5
+    describe()
     while not user == 9:
+        describe()
+        user = int(
+            input("[1] North   [2] East    [3] South    [4] West       [9] Quit\n"))
         # user chooses North
         if user == 1:
-            me.current_room = room[me.current_room].n_to
-            describe()
+            if me.current_room.n_to != None:
+                me.current_room = me.current_room.n_to
+            else:
+                print("Sorry there is no room to the north")
+                pass
         # user chooses East
         elif user == 2:
-            me.current_room = room[me.current_room].e_to
-            describe()
+            if me.current_room.e_to != None:
+                me.current_room = me.current_room.e_to
+            else:
+                print("Sorry there is no room to the east")
+                pass
         # user chooses South
         elif user == 3:
-            me.current_room = room[me.current_room].s_to
-            describe()
-        # user chooses South
-        elif user == 3:
-            me.current_room = room[me.current_room].s_to
-            describe()
+            if me.current_room.s_to != None:
+                me.current_room = me.current_room.s_to
+            else:
+                print("Sorry there is no room to the south")
+                pass
+        # user chooses West
+        elif user == 4:
+            if me.current_room.w_to != None:
+                me.current_room = me.current_room.w_to
+            else:
+                print("Sorry there is no room to the west")
+                pass
+        elif user == 5:
+            pass
         else:
             print("Invalid selection. Please try again.")
 
 
-# explore()
+explore()
 
 
 # * Prints the current room name
