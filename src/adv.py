@@ -5,6 +5,8 @@
 from room import Room
 from player import Player
 import textwrap
+import colorama
+from colorama import Fore, Style
 
 
 def load_results():
@@ -22,7 +24,7 @@ def save_results(w, t, l):
 
 # welcome message
 
-print("Welcome to my dungeon, {player.name}!")
+print("Welcome to my dungeon \n")
 print("Please choose to continue...")
 
 
@@ -67,17 +69,13 @@ room['treasure'].s_to = room['narrow']
 
 me = Player("Joscelyn", room["outside"])
 
-# Write a loop that:
-#
-
 
 def describe():
-    print(textwrap.dedent(me.current_room.description).strip())
+    print(Style.RESET_ALL + textwrap.dedent(me.current_room.description).strip() + "\n")
 
 
 def explore():
     user = 5
-    describe()
     while not user == 9:
         describe()
         user = int(
@@ -87,33 +85,34 @@ def explore():
             if me.current_room.n_to != None:
                 me.current_room = me.current_room.n_to
             else:
-                print("Sorry there is no room to the north")
-                pass
+                print(Fore.RED + "Sorry there is no room to the north \n")
+
         # user chooses East
         elif user == 2:
             if me.current_room.e_to != None:
                 me.current_room = me.current_room.e_to
             else:
-                print("Sorry there is no room to the east")
-                pass
+                print(Fore.RED + "Sorry there is no room to the east \n")
+
         # user chooses South
         elif user == 3:
             if me.current_room.s_to != None:
                 me.current_room = me.current_room.s_to
             else:
-                print("Sorry there is no room to the south")
-                pass
+                print(Fore.RED + "Sorry there is no room to the south \n")
+
         # user chooses West
         elif user == 4:
             if me.current_room.w_to != None:
                 me.current_room = me.current_room.w_to
             else:
-                print("Sorry there is no room to the west")
-                pass
+                print(Fore.RED + "Sorry there is no room to the west \n")
+
         elif user == 5:
             pass
+
         else:
-            print("Invalid selection. Please try again.")
+            print("\033[1;31;40m Invalid selection. Please try again. \n")
 
 
 explore()
