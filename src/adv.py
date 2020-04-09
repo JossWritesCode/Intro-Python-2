@@ -10,11 +10,8 @@ import colorama
 from colorama import Fore, Style
 
 
-# welcome message
-
-print(Fore.MAGENTA + "\n \n Welcome to my dungeon \n \n")
-
 # Declare all the rooms
+
 
 room = {
     'outside':  Room("Outside Cave Entrance",
@@ -79,12 +76,21 @@ room["narrow"].add_item(item["goblet"])
 #
 
 # Make a new player object that is currently in the 'outside' room.
+me = Player(room["outside"])
 
-me = Player("Joscelyn", room["outside"])
+
+# welcome message
+def welcome_player():
+    print(Fore.MAGENTA + "\n \n Welcome to my dungeon, brave explorer \n \n")
+    player_name = input(Style.RESET_ALL + "What is your name? \n \n")
+    me.set_name(player_name)
+
+
+welcome_player()
 
 
 def describe():
-    print(Style.RESET_ALL + "You are in the " +
+    print(Style.RESET_ALL + me.name + ", you are in the " +
           Fore.CYAN + me.current_room.name + "\n" + "\n" + Style.RESET_ALL)
     print(textwrap.dedent(me.current_room.description).strip() + "\n" + "\n")
 
