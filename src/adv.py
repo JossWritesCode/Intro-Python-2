@@ -25,8 +25,6 @@ def save_results(w, t, l):
 # welcome message
 
 print("Welcome to my dungeon \n")
-print("Please choose to continue...")
-
 
 # Declare all the rooms
 
@@ -71,38 +69,41 @@ me = Player("Joscelyn", room["outside"])
 
 
 def describe():
-    print(Style.RESET_ALL + textwrap.dedent(me.current_room.description).strip() + "\n")
+    print(Style.RESET_ALL + "You are in the " + me.current_room.name + "\n")
+    print(textwrap.dedent(me.current_room.description).strip() + "\n")
 
 
 def explore():
     user = 5
-    while not user == 9:
+    while not user == "q":
         describe()
-        user = int(
-            input("[1] North   [2] East    [3] South    [4] West       [9] Quit\n"))
+        user = input(
+            "[n] North   [e] East    [s] South    [w] West       [q] Quit\n")
+        print("Please choose to continue... \n")
+
         # user chooses North
-        if user == 1:
+        if user == "n":
             if me.current_room.n_to != None:
                 me.current_room = me.current_room.n_to
             else:
                 print(Fore.RED + "Sorry there is no room to the north \n")
 
         # user chooses East
-        elif user == 2:
+        elif user == "e":
             if me.current_room.e_to != None:
                 me.current_room = me.current_room.e_to
             else:
                 print(Fore.RED + "Sorry there is no room to the east \n")
 
         # user chooses South
-        elif user == 3:
+        elif user == "s":
             if me.current_room.s_to != None:
                 me.current_room = me.current_room.s_to
             else:
                 print(Fore.RED + "Sorry there is no room to the south \n")
 
         # user chooses West
-        elif user == 4:
+        elif user == "w":
             if me.current_room.w_to != None:
                 me.current_room = me.current_room.w_to
             else:
@@ -112,17 +113,7 @@ def explore():
             pass
 
         else:
-            print("\033[1;31;40m Invalid selection. Please try again. \n")
+            print(Fore.RED + "Invalid selection. Please try again. \n")
 
 
 explore()
-
-
-# * Prints the current room name
-# * Prints the current description (the textwrap module might be useful here).
-# * Waits for user input and decides what to do.
-#
-# If the user enters a cardinal direction, attempt to move to the room there.
-# Print an error message if the movement isn't allowed.
-#
-# If the user enters "q", quit the game.
