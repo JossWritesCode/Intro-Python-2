@@ -1,25 +1,12 @@
 
 
-# file i/o functions for historical results
+# imports
 
 from room import Room
 from player import Player
 import textwrap
 import colorama
 from colorama import Fore, Style
-
-
-def load_results():
-    text_file = open("history.txt", "r")
-    history = text_file.read().split(",")
-    text_file.close()
-    return history
-
-
-def save_results(w, t, l):
-    text_file = open("history.txt", "w")
-    text_file.write(str(w) + "," + str(t) + "," + str(l))
-    text_file.close()
 
 
 # welcome message
