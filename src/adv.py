@@ -3,6 +3,7 @@
 # imports
 
 from room import Room
+from item import Item
 from player import Player
 import textwrap
 import colorama
@@ -34,17 +35,44 @@ chamber! Sadly, it has already been completely emptied by
 earlier adventurers. The only exit is to the south."""),
 }
 
+item = {
+    'gold':  Item("Gold",
+                  "A piece of gold flickers under the light."),
+
+    'sword':    Item("Sword", """It's dangerous to go alone! Take this!"""),
+
+    'goblet': Item("Goblet", """A jeweled cup lies as if in wait for its king or queen."""),
+
+    'necklace':   Item("Necklace", """Sparkling gems adorn this delicate necklace."""),
+
+    'scepter': Item("Scepter", """The knowledge of what great monarch held this majestic scepter has been lost to time."""),
+}
+
 
 # Link rooms together
 
-room['outside'].n_to = room['foyer']
-room['foyer'].s_to = room['outside']
-room['foyer'].n_to = room['overlook']
-room['foyer'].e_to = room['narrow']
-room['overlook'].s_to = room['foyer']
-room['narrow'].w_to = room['foyer']
-room['narrow'].n_to = room['treasure']
-room['treasure'].s_to = room['narrow']
+def link_room(current_room, direction, next_room):
+    setattr(room[current_room], direction, room[next_room])
+
+
+link_room('outside', 'n_to', 'foyer')
+link_room('foyer', 's_to', 'outside')
+link_room('foyer', 'n_to', 'overlook')
+link_room('foyer', 'e_to', 'narrow')
+link_room('overlook', 's_to', 'foyer')
+link_room('narrow', 'w_to', 'foyer')
+link_room('narrow', 'n_to', 'treasure')
+link_room('treasure', 's_to', 'narrow')
+
+
+# Add items to rooms
+
+room["foyer"].add_item(item["sword"])
+room["overlook"].add_item(item["gold"])
+room["overlook"].add_item(item["scepter"])
+room["narrow"].add_item(item["necklace"])
+room["narrow"].add_item(item["goblet"])
+
 
 #
 # Main
@@ -58,6 +86,10 @@ me = Player("Joscelyn", room["outside"])
 def describe():
     print(Style.RESET_ALL + "You are in the " + me.current_room.name + "\n")
     print(textwrap.dedent(me.current_room.description).strip() + "\n")
+    if len(me.current_room.list_of_items) > 0:
+        for item in me.current_room.list_of_items:
+            print(
+                f"You find a {item.name}. \n {textwrap.dedent(item.description).strip()} \n")
 
 
 def explore():
