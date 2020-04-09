@@ -12,13 +12,13 @@ from colorama import Fore, Style
 
 # welcome message
 
-print("Welcome to my dungeon \n")
+print(Fore.MAGENTA + "\n \n Welcome to my dungeon \n \n")
 
 # Declare all the rooms
 
 room = {
     'outside':  Room("Outside Cave Entrance",
-                     "North of you, the cave mount beckons"),
+                     "North of you, the cave mouth beckons"),
 
     'foyer':    Room("Foyer", """Dim light filters in from the south. Dusty
 passages run north and east."""),
@@ -36,7 +36,7 @@ earlier adventurers. The only exit is to the south."""),
 }
 
 item = {
-    'gold':  Item("Gold",
+    'gold':  Item("Gold Piece",
                   "A piece of gold flickers under the light."),
 
     'sword':    Item("Sword", """It's dangerous to go alone! Take this!"""),
@@ -45,7 +45,7 @@ item = {
 
     'necklace':   Item("Necklace", """Sparkling gems adorn this delicate necklace."""),
 
-    'scepter': Item("Scepter", """The knowledge of what great monarch held this majestic scepter has been lost to time."""),
+    'scepter': Item("Scepter", """All knowledge of the great monarch who held this majestic scepter has been lost to time."""),
 }
 
 
@@ -84,55 +84,74 @@ me = Player("Joscelyn", room["outside"])
 
 
 def describe():
-    print(Style.RESET_ALL + "You are in the " + me.current_room.name + "\n")
-    print(textwrap.dedent(me.current_room.description).strip() + "\n")
-    if len(me.current_room.list_of_items) > 0:
-        for item in me.current_room.list_of_items:
-            print(
-                f"You find a {item.name}. \n {textwrap.dedent(item.description).strip()} \n")
+    print(Style.RESET_ALL + "You are in the " +
+          Fore.BLUE + me.current_room.name + "\n" + "\n" + Style.RESET_ALL)
+    print(textwrap.dedent(me.current_room.description).strip() + "\n" + "\n")
+
+
+def offer_item_to_player(item):
+    want_item = input("Do you want to take this item? [y] Yes   [n] No \n \n")
+    if want_item == 'y':
+        me.add_item(item)
+        print(
+            f"You put the {item.name} in your bag. Who knows when you'll need it. \n \n")
+    elif want_item == 'n':
+        print(
+            f"You leave the {item.name} for future adventurers. They might need it more than you. \n \n")
+
+
+def describe_item_to_player(item):
+    print("You find a " + Fore.GREEN +
+          item.name + Style.RESET_ALL + "." + "\n")
+    print(textwrap.dedent(item.description).strip() + "\n" + "\n")
 
 
 def explore():
     user = 5
-    while not user == "q":
+    while not user == 6:
         describe()
-        user = input(
-            "[n] North   [e] East    [s] South    [w] West       [q] Quit\n")
-        print("Please choose to continue... \n")
+        if len(me.current_room.list_of_items) > 0:
+            for item in me.current_room.list_of_items:
+                describe_item_to_player(item)
+                offer_item_to_player(item)
+
+        user = int(input(
+            "[1] North   [2] East   [3] South   [4] West      [6] quit   \n \n"))
 
         # user chooses North
-        if user == "n":
+        if user == 1:
             if me.current_room.n_to != None:
                 me.current_room = me.current_room.n_to
+
             else:
-                print(Fore.RED + "Sorry there is no room to the north \n")
+                print(Fore.RED + "Sorry there is no room to the north \n \n")
 
         # user chooses East
-        elif user == "e":
+        elif user == 2:
             if me.current_room.e_to != None:
                 me.current_room = me.current_room.e_to
             else:
-                print(Fore.RED + "Sorry there is no room to the east \n")
+                print(Fore.RED + "Sorry there is no room to the east \n \n")
 
         # user chooses South
-        elif user == "s":
+        elif user == 3:
             if me.current_room.s_to != None:
                 me.current_room = me.current_room.s_to
             else:
-                print(Fore.RED + "Sorry there is no room to the south \n")
+                print(Fore.RED + "Sorry there is no room to the south \n \n")
 
         # user chooses West
-        elif user == "w":
+        elif user == 4:
             if me.current_room.w_to != None:
                 me.current_room = me.current_room.w_to
             else:
-                print(Fore.RED + "Sorry there is no room to the west \n")
+                print(Fore.RED + "Sorry there is no room to the west \n \n")
 
         elif user == 5:
             pass
 
         else:
-            print(Fore.RED + "Invalid selection. Please try again. \n")
+            print(Fore.RED + "Invalid selection. Please try again. \n \n")
 
 
 explore()
