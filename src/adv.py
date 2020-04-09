@@ -85,7 +85,7 @@ me = Player("Joscelyn", room["outside"])
 
 def describe():
     print(Style.RESET_ALL + "You are in the " +
-          Fore.BLUE + me.current_room.name + "\n" + "\n" + Style.RESET_ALL)
+          Fore.CYAN + me.current_room.name + "\n" + "\n" + Style.RESET_ALL)
     print(textwrap.dedent(me.current_room.description).strip() + "\n" + "\n")
 
 
@@ -108,7 +108,7 @@ def describe_item_to_player(item):
 
 def explore():
     user = 5
-    while not user == 6:
+    while not user == 9:
         describe()
         if len(me.current_room.list_of_items) > 0:
             for item in me.current_room.list_of_items:
@@ -116,7 +116,7 @@ def explore():
                 offer_item_to_player(item)
 
         user = int(input(
-            "[1] North   [2] East   [3] South   [4] West      [6] quit   \n \n"))
+            "[1] North   [2] East   [3] South   [4] West      [9] quit   \n \n"))
 
         # user chooses North
         if user == 1:
@@ -148,6 +148,9 @@ def explore():
                 print(Fore.RED + "Sorry there is no room to the west \n \n")
 
         elif user == 5:
+            pass
+
+        elif user == 9:
             pass
 
         else:
